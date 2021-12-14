@@ -19,8 +19,11 @@ public class UserService {
         this.productRepository = productRepository;
     }
 
-    public UserEntity createNewUser(CreateUserRequestDto userRequest) {
+    public UserEntity saveUser(CreateUserRequestDto userRequest) {
+        log.info("Starting to save the user[productDto={}]", userRequest);
         UserEntity userEntity = modelMapper.map(userRequest, UserEntity.class);
-        return productRepository.save(userEntity);
+        UserEntity savedEntity = productRepository.save(userEntity);
+        log.info("Product is saved [id={}]", savedEntity.getId());
+        return savedEntity;
     }
 }

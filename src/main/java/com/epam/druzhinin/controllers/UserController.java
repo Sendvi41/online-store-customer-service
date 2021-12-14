@@ -19,8 +19,8 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping()
+    @PostMapping
     public UserEntity createNewUser(@RequestBody CreateUserRequestDto userRequest) {
-        return userService.createNewUser(userRequest);
+        return userService.saveUser(userRequest);
     }
 }
