@@ -1,0 +1,13 @@
+version: "3.8"
+services:
+  customer-db:
+    image: postgres:13.4
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: postgres
+      POSTGRES_DB: customerServiceDB
+networks:
+  monitoring:
