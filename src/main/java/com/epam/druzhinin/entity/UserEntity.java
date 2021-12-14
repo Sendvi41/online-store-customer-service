@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.time.ZonedDateTime;
 
 @Data
 @Accessors(chain = true)
@@ -15,7 +15,7 @@ public class UserEntity {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name = "name")
     private String name;
@@ -27,7 +27,7 @@ public class UserEntity {
     private String lastName;
 
     @Column(name = "birthday")
-    private LocalDate birthday;
+    private ZonedDateTime birthday;
 
     @Column(name = "phone_number")
     private String phoneNumber;
