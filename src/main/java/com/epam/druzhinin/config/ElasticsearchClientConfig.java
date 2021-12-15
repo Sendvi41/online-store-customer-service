@@ -11,12 +11,14 @@ import org.springframework.data.elasticsearch.config.AbstractElasticsearchConfig
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 
 @Configuration
-@EnableElasticsearchRepositories(basePackages
-        = "com.epam.druzhinin.repositories")
+@EnableElasticsearchRepositories(basePackages = "com.epam.druzhinin.repositories")
 @ComponentScan(basePackages = {"com.epam.druzhinin"})
 public class ElasticsearchClientConfig extends AbstractElasticsearchConfiguration {
-    @Value("${elastic.host.and.port}")
-    private String elasticHostAndPort;
+    @Value("${elastic.host}")
+    private String elasticHost;
+
+    @Value("${elastic.port}")
+    private String elasticPort;
 
     @Override
     @Bean
@@ -24,10 +26,9 @@ public class ElasticsearchClientConfig extends AbstractElasticsearchConfiguratio
         ClientConfiguration clientConfiguration =
                 ClientConfiguration
                         .builder()
-                        .connectedTo(elasticHostAndPort)
+                        .connectedTo(elasticHost + ":" + elasticPort)
                         .build();
 
         return RestClients.create(clientConfiguration).rest();
     }
 }
-
