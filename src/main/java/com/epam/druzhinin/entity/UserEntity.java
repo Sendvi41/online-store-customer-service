@@ -41,4 +41,7 @@ public class UserEntity {
 
     @Column(name = "email")
     private String email;
+
+    @OneToOne(mappedBy = "user")
+    private BasketEntity basket;
 }

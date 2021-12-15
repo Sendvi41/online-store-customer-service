@@ -13,18 +13,22 @@ import org.springframework.stereotype.Service;
 public class UserService {
     private final ModelMapper modelMapper;
 
-    private final UserRepository productRepository;
+    private final UserRepository userRepository;
+
+    private final BasketService basketService;
 
     @Autowired
-    public UserService(ModelMapper modelMapper, UserRepository productRepository) {
+    public UserService(ModelMapper modelMapper, UserRepository userRepository, BasketService basketService) {
         this.modelMapper = modelMapper;
-        this.productRepository = productRepository;
+        this.userRepository = userRepository;
+        this.basketService = basketService;
     }
 
     public UserEntity saveUser(CreateUserRequestDto userRequest) {
         log.info("Starting to save the user[productDto={}]", userRequest);
         UserEntity userEntity = modelMapper.map(userRequest, UserEntity.class);
-        UserEntity savedEntity = productRepository.save(userEntity);
+        UserEntity savedEntity = userRepository.save(userEntity);
+        basketService.createBasketForUser(savedEntity);
         log.info("User is saved [id={}]", savedEntity.getId());
         return savedEntity;
     }
