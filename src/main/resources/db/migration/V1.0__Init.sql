@@ -12,3 +12,19 @@ create table users
     phone_number varchar (20),
     email        varchar (50)
 );
+create table baskets(
+    id          bigserial
+        constraint baskets_pk
+            primary key,
+    user_id bigserial unique,
+    FOREIGN KEY (user_id) REFERENCES users (id)
+);
+create table items(
+    id bigserial
+        constraint items_pk
+        primary key,
+    product_id bigserial not null,
+    amount integer not null,
+    basket_id bigserial not null,
+    FOREIGN KEY (basket_id) REFERENCES baskets(id)
+)
