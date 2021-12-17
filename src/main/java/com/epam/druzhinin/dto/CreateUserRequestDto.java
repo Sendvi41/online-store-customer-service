@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
 
 @Data
@@ -20,7 +21,7 @@ public class CreateUserRequestDto {
     private String lastName;
 
     @DateTimeFormat(pattern = "YYYY-MM-DD")
-    private ZonedDateTime birthday;
+    private LocalDate birthday;
 
     @NotNull
     private Gender gender;
