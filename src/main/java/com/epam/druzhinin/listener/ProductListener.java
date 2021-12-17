@@ -20,9 +20,9 @@ public class ProductListener {
             queues = "${rabbitmq.queue}",
             autoStartup = "true")
     public void receiveProducts(ProductDocument productDocument) {
+        log.info("ProductDocument was received [id={}, name={}]", productDocument.getId(), productDocument.getName());
         log.info("Starting to save the productDocument [id={}]", productDocument.getId());
         productService.saveProduct(productDocument);
         log.info("ProductDocument is saved [id={}]", productDocument.getId());
     }
-
 }

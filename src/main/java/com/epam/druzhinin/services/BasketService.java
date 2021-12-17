@@ -82,4 +82,13 @@ public class BasketService {
         log.info("Item was added for user [userId={},basketId={}]", userId, basket.getId());
         return modelMapper.map(savedEntity, ItemDto.class);
     }
+
+    public void deleteItem(Long itemId) {
+        log.info("Starting to delete the item [id={}]", itemId);
+        ItemEntity itemEntity = itemRepository.findById(itemId).orElseThrow(
+                () -> new NotFoundException("Item is not found id=" + itemId)
+        );
+        itemRepository.deleteById(itemId);
+        log.info("Item is deleted [itemId={}, basketId={}]", itemEntity.getId(), itemEntity.getBasket().getId());
+    }
 }

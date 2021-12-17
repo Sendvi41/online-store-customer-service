@@ -3,7 +3,9 @@ package com.epam.druzhinin.controllers;
 import com.epam.druzhinin.dto.AddItemDto;
 import com.epam.druzhinin.dto.BasketItemsDto;
 import com.epam.druzhinin.dto.ItemDto;
+import com.epam.druzhinin.dto.MessageDto;
 import com.epam.druzhinin.services.BasketService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -24,5 +26,11 @@ public class BasketController {
     @PostMapping("/{userId}")
     public ItemDto addItemToBasket(@PathVariable Long userId, @RequestBody AddItemDto addItemDto) {
         return basketService.addItem(addItemDto, userId);
+    }
+
+    @DeleteMapping("/{itemId}")
+    public ResponseEntity<MessageDto> deleteItemFromBasket(@PathVariable Long itemId) {
+        basketService.deleteItem(itemId);
+        return ResponseEntity.ok(MessageDto.of("Item is deleted by id=" + itemId));
     }
 }
