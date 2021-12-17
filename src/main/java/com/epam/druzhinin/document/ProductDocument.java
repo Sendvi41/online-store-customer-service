@@ -6,6 +6,7 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import javax.persistence.Id;
+import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 
 @Data
@@ -23,8 +24,8 @@ public class ProductDocument {
     @Field(type = FieldType.Integer, name = "amount")
     private Integer amount;
 
-    @Field(type = FieldType.Integer, name = "price")
-    private Integer price;
+    @Field(type = FieldType.Text, name = "price")
+    private BigDecimal price;
 
     @Field(type = FieldType.Date, name = "date")
     private ZonedDateTime date;

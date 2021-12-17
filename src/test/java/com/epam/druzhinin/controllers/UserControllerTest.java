@@ -14,7 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -63,7 +63,7 @@ public class UserControllerTest {
         return new CreateUserRequestDto()
                 .setName("Alex")
                 .setLastName("Shmidt")
-                .setBirthday(ZonedDateTime.now())
+                .setBirthday(LocalDate.now())
                 .setEmail("alex@epam.com")
                 .setCity("New-York")
                 .setGender(Gender.MALE);
