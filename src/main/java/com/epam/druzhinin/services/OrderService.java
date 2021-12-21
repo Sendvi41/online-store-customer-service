@@ -14,6 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.ZoneId;
@@ -85,5 +87,18 @@ public class OrderService {
         log.info("OrderEntity was mapped to OrderDto successfully [orderId={}]", savedOrderEntity.getId());
         orderDto.setOrderedProducts(orderedProductDtos);
         return orderDto;
+    }
+
+    public List<OrderDto> getOrders(Long userId, Pageable pageable) {
+        log.info("Starting to get orders for user [userId={}]", userId);
+        UserEntity user = userRepository.findById(userId).orElseThrow(
+                () -> new NotFoundException("User isn't found with id=" + userId)
+        );
+        Page<OrderEntity> orders = orderRepository.findAllByUser(user, pageable);
+        log.info("Orders were got for user [userId={}]", userId);
+        return orders.toList()
+                .stream()
+                .map(e -> modelMapper.map(e, OrderDto.class))
+                .collect(Collectors.toList());
     }
 }
