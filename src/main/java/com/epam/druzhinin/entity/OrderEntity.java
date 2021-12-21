@@ -6,6 +6,7 @@ import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import java.time.ZonedDateTime;
+import java.util.List;
 
 @Data
 @Accessors(chain = true)
@@ -28,4 +29,6 @@ public class OrderEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
+    @OneToMany(mappedBy = "order")
+    private List<OrderedProductEntity> orderedProducts;
 }
