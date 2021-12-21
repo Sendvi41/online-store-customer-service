@@ -7,5 +7,5 @@ create table ordered_products
     amount        integer     NOT NULL,
     price      NUMERIC (18,2) not null,
     order_id    bigserial,
-    FOREIGN KEY (product_id) REFERENCES orders (id)
+    FOREIGN KEY (order_id) REFERENCES orders (id)
 );
