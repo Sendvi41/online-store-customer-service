@@ -14,7 +14,6 @@ import com.epam.druzhinin.repositories.ProductRepository;
 import com.epam.druzhinin.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -31,7 +30,6 @@ public class BasketService {
 
     private final ModelMapper modelMapper;
 
-    @Autowired
     public BasketService(BasketRepository basketRepository, UserRepository userRepository, ProductRepository productRepository, ItemRepository itemRepository, ModelMapper modelMapper) {
         this.basketRepository = basketRepository;
         this.userRepository = userRepository;

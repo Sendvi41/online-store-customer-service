@@ -5,7 +5,6 @@ import com.epam.druzhinin.dto.search.SearchProductRequestDto;
 import com.epam.druzhinin.repositories.ProductRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.index.query.Operator;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.data.elasticsearch.core.SearchHit;
@@ -28,7 +27,6 @@ public class ProductService {
 
     private final ElasticsearchRestTemplate client;
 
-    @Autowired
     public ProductService(ProductRepository productRepository,
                           ElasticsearchRestTemplate client) {
         this.productRepository = productRepository;

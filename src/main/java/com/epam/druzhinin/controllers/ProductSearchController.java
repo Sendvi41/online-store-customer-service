@@ -3,7 +3,6 @@ package com.epam.druzhinin.controllers;
 import com.epam.druzhinin.document.ProductDocument;
 import com.epam.druzhinin.dto.search.SearchProductRequestDto;
 import com.epam.druzhinin.services.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +18,6 @@ public class ProductSearchController {
 
     private final ProductService productService;
 
-    @Autowired
     public ProductSearchController(ProductService productService) {
         this.productService = productService;
     }

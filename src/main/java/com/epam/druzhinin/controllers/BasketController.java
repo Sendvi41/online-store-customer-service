@@ -5,7 +5,6 @@ import com.epam.druzhinin.dto.BasketItemsDto;
 import com.epam.druzhinin.dto.ItemDto;
 import com.epam.druzhinin.dto.MessageDto;
 import com.epam.druzhinin.services.BasketService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -29,8 +28,8 @@ public class BasketController {
     }
 
     @DeleteMapping("/{itemId}")
-    public ResponseEntity<MessageDto> deleteItemFromBasket(@PathVariable Long itemId) {
+    public MessageDto deleteItemFromBasket(@PathVariable Long itemId) {
         basketService.deleteItem(itemId);
-        return ResponseEntity.ok(MessageDto.of("Item is deleted by id=" + itemId));
+        return MessageDto.of("Item is deleted by id=" + itemId);
     }
 }

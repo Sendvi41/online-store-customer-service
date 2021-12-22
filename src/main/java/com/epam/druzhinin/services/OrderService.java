@@ -12,12 +12,12 @@ import com.epam.druzhinin.repositories.ProductRepository;
 import com.epam.druzhinin.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class OrderService {
     @Value("${date.time.zone}")
-    private String zoneId;
+    private final String ZONE_ID;
 
     private final OrderRepository orderRepository;
 
@@ -40,11 +40,12 @@ public class OrderService {
 
     private final ModelMapper modelMapper;
 
-    @Autowired
-    public OrderService(OrderRepository orderRepository,
+    public OrderService(String zoneId, OrderRepository orderRepository,
                         OrderedProductRepository orderedProductRepository,
                         UserRepository userRepository,
-                        ProductRepository productRepository, ModelMapper modelMapper) {
+                        ProductRepository productRepository,
+                        ModelMapper modelMapper) {
+        this.ZONE_ID = zoneId;
         this.orderRepository = orderRepository;
         this.orderedProductRepository = orderedProductRepository;
         this.userRepository = userRepository;
@@ -52,6 +53,7 @@ public class OrderService {
         this.modelMapper = modelMapper;
     }
 
+    @Transactional
     public OrderDto createOrder(Long userId) {
         log.info("Starting to create order for user[userId={}]", userId);
         UserEntity user = userRepository.findById(userId).orElseThrow(
@@ -61,7 +63,7 @@ public class OrderService {
         if (basket.getItems().isEmpty()) {
             throw new NotFoundException("Basket doesn't contain items for order");
         }
-        OrderEntity orderEntity = new OrderEntity().setDate(ZonedDateTime.now(ZoneId.of(zoneId)))
+        OrderEntity orderEntity = new OrderEntity().setDate(ZonedDateTime.now(ZoneId.of(ZONE_ID)))
                 .setStatus(OrderStatus.PENDING)
                 .setUser(user);
         OrderEntity savedOrderEntity = orderRepository.save(orderEntity);

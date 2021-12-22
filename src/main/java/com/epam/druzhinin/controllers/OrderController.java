@@ -2,7 +2,6 @@ package com.epam.druzhinin.controllers;
 
 import com.epam.druzhinin.dto.OrderDto;
 import com.epam.druzhinin.services.OrderService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +14,6 @@ public class OrderController {
 
     private final OrderService orderService;
 
-    @Autowired
     public OrderController(OrderService orderService) {
         this.orderService = orderService;
     }
