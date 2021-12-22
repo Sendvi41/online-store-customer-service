@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 public class OrderService {
-    @Value("${date.time.zone}")
+
     private final String ZONE_ID;
 
     private final OrderRepository orderRepository;
@@ -40,7 +40,8 @@ public class OrderService {
 
     private final ModelMapper modelMapper;
 
-    public OrderService(String zoneId, OrderRepository orderRepository,
+    public OrderService(@Value("${date.time.zone}") String zoneId,
+                        OrderRepository orderRepository,
                         OrderedProductRepository orderedProductRepository,
                         UserRepository userRepository,
                         ProductRepository productRepository,
