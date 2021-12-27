@@ -66,6 +66,19 @@ public class UserControllerTest {
         assertThat(userRequestDto.getPhoneNumber()).isEqualTo(actualEntity.getPhoneNumber());
     }
 
+    @Test
+    void createNewUserWithInvalidRequest_shouldReturn400() throws Exception {
+        //given
+        CreateUserRequestDto userRequestDto = prepareCreateUserRequestDto();
+        userRequestDto.setGender(null);
+        //when
+        mockMvc.perform(post(USERS_END_POINT)
+                        .content(objectMapper.writeValueAsString(userRequestDto))
+                        .contentType(MediaType.APPLICATION_JSON))
+                //then
+                .andExpect(status().isBadRequest());
+    }
+
     private static CreateUserRequestDto prepareCreateUserRequestDto() {
         return new CreateUserRequestDto()
                 .setName("Alex")
