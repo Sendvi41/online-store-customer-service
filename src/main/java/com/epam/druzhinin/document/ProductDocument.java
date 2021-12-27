@@ -1,6 +1,7 @@
 package com.epam.druzhinin.document;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
@@ -10,6 +11,7 @@ import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 
 @Data
+@Accessors(chain = true)
 @Document(indexName = "products")
 public class ProductDocument {
     @Id
