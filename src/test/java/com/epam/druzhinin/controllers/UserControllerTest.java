@@ -1,18 +1,18 @@
 package com.epam.druzhinin.controllers;
 
-import com.epam.druzhinin.config.TestContainerConfig;
 import com.epam.druzhinin.dto.CreateUserRequestDto;
 import com.epam.druzhinin.entity.UserEntity;
 import com.epam.druzhinin.enums.Gender;
 import com.epam.druzhinin.repositories.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.event.annotation.AfterTestMethod;
 import org.springframework.test.web.servlet.MockMvc;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.time.LocalDate;
 
@@ -21,20 +21,27 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest(classes = TestContainerConfig.class)
+@SpringBootTest
 @AutoConfigureMockMvc
-@Testcontainers
 public class UserControllerTest {
     private static final String USERS_END_POINT = "/users";
-
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @Autowired
+    private ModelMapper modelMapper;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @AfterTestMethod
+    void clearDb() {
+        userRepository.deleteAll();
+    }
 
     @Test
     void createNewUser_shouldReturn200OkAndUserEntity() throws Exception {
@@ -62,6 +69,7 @@ public class UserControllerTest {
     private static CreateUserRequestDto prepareCreateUserRequestDto() {
         return new CreateUserRequestDto()
                 .setName("Alex")
+                .setMiddleName("Andreevich")
                 .setLastName("Shmidt")
                 .setBirthday(LocalDate.now())
                 .setEmail("alex@epam.com")
