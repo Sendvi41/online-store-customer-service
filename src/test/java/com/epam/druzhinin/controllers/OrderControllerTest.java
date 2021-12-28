@@ -1,6 +1,7 @@
 package com.epam.druzhinin.controllers;
 
 import com.epam.druzhinin.document.ProductDocument;
+import com.epam.druzhinin.dto.MessageDto;
 import com.epam.druzhinin.dto.OrderDto;
 import com.epam.druzhinin.entity.*;
 import com.epam.druzhinin.enums.OrderStatus;
@@ -11,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.event.annotation.AfterTestMethod;
+import org.springframework.test.context.event.annotation.BeforeTestMethod;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
@@ -55,14 +56,14 @@ class OrderControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @AfterTestMethod
+    @BeforeTestMethod
     void clearDb() {
-        userRepository.deleteAll();
-        basketRepository.deleteAll();
         itemRepository.deleteAll();
-        productRepository.deleteAll();
+        basketRepository.deleteAll();
         orderedProductRepository.deleteAll();
         orderRepository.deleteAll();
+        userRepository.deleteAll();
+        productRepository.deleteAll();
     }
 
     @Test
@@ -93,6 +94,24 @@ class OrderControllerTest {
     }
 
     @Test
+    void createOrderWithInvalidUserId_shouldReturn404AndMessageDto() throws Exception {
+        //given
+        Long invalidUserId = 1L;
+        //when
+        String result = mockMvc.perform(post(ORDER_END_POINT)
+                        .param("userId", invalidUserId.toString()))
+                //then
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andReturn().getResponse().getContentAsString();
+
+        MessageDto actualDto = objectMapper.readerFor(MessageDto.class).readValue(result);
+
+        assertThat(result).isNotBlank();
+        assertThat(actualDto.getMessage()).isNotBlank();
+    }
+
+    @Test
     void getOrdersByUserId_shouldReturn200OkAndListOrderDto() throws Exception {
         //given
         ProductDocument savedProduct = productRepository.save(prepareProductDocument().setId(String.valueOf(1L)));
@@ -118,5 +137,23 @@ class OrderControllerTest {
                 .andReturn().getResponse().getContentAsString();
 
         assertThat(result).isNotBlank();
+    }
+
+    @Test
+    void getOrdersByInvalidUserId_shouldReturn404AndMessageDto() throws Exception {
+        //given
+        Long invalidUserId = 1L;
+        //when
+        String result = mockMvc.perform(get(ORDER_END_POINT)
+                        .param("userId", invalidUserId.toString()))
+                //then
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andReturn().getResponse().getContentAsString();
+
+        MessageDto actualDto = objectMapper.readerFor(MessageDto.class).readValue(result);
+
+        assertThat(result).isNotBlank();
+        assertThat(actualDto.getMessage()).isNotBlank();
     }
 }

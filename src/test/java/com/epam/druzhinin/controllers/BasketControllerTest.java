@@ -18,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.event.annotation.AfterTestMethod;
+import org.springframework.test.context.event.annotation.BeforeTestMethod;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static com.epam.druzhinin.util.PreparationUtil.prepareProductDocument;
@@ -52,11 +52,11 @@ class BasketControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @AfterTestMethod
+    @BeforeTestMethod
     void clearDb() {
-        userRepository.deleteAll();
-        basketRepository.deleteAll();
         itemRepository.deleteAll();
+        basketRepository.deleteAll();
+        userRepository.deleteAll();
     }
 
 
