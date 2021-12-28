@@ -80,6 +80,23 @@ class BasketControllerTest {
     }
 
     @Test
+    void getItemsByInvalidUserId_shouldReturn404AndMessageDto() throws Exception {
+        //given
+        Long invalidUserId = 1L;
+        //when
+        String result = mockMvc.perform(get(BASKET_END_POINT + "/{id}", invalidUserId))
+                //then
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andReturn().getResponse().getContentAsString();
+
+        MessageDto actualDto = objectMapper.readerFor(MessageDto.class).readValue(result);
+
+        assertThat(result).isNotBlank();
+        assertThat(actualDto.getMessage()).isNotBlank();
+    }
+
+    @Test
     void addItemToBasket_shouldReturn200OkAndItemDto() throws Exception {
         //given
         ProductDocument savedProduct = productRepository.save(prepareProductDocument().setId(String.valueOf(1L)));
@@ -100,6 +117,27 @@ class BasketControllerTest {
         assertThat(result).isNotBlank();
         assertThat(actualDto.getProductId()).isEqualTo(Long.valueOf(savedProduct.getId()));
         assertThat(actualDto.getAmount()).isEqualTo(addItemDto.getAmount());
+    }
+
+    @Test
+    void addItemToBasketWithInvalidId_shouldReturn404AndMessageDto() throws Exception {
+        //given
+        Long invalidUserId = 1L;
+        ProductDocument savedProduct = productRepository.save(prepareProductDocument().setId(String.valueOf(1L)));
+        AddItemDto addItemDto = new AddItemDto().setProductId(Long.valueOf(savedProduct.getId())).setAmount(2);
+        //when
+        String result = mockMvc.perform(post(BASKET_END_POINT + "/{id}", invalidUserId)
+                        .content(objectMapper.writeValueAsString(addItemDto))
+                        .contentType(MediaType.APPLICATION_JSON))
+                //then
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andReturn().getResponse().getContentAsString();
+
+        MessageDto actualDto = objectMapper.readerFor(MessageDto.class).readValue(result);
+
+        assertThat(result).isNotBlank();
+        assertThat(actualDto.getMessage()).isNotBlank();
     }
 
     @Test
@@ -126,4 +164,20 @@ class BasketControllerTest {
         assertThat(actualDto.getMessage()).isNotBlank();
     }
 
+    @Test
+    void deleteItemFromBasketWithInvalidItemId__shouldReturn404AndMessageDto() throws Exception {
+        //given
+        Long invalidItemId = 1L;
+        //when
+        String result = mockMvc.perform(delete(BASKET_END_POINT + "/{id}", invalidItemId))
+                //then
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andReturn().getResponse().getContentAsString();
+
+        MessageDto actualDto = objectMapper.readerFor(MessageDto.class).readValue(result);
+
+        assertThat(result).isNotBlank();
+        assertThat(actualDto.getMessage()).isNotBlank();
+    }
 }
