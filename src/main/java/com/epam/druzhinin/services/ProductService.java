@@ -44,6 +44,19 @@ public class ProductService {
         return savedProduct;
     }
 
+    public ProductDocument updateProduct(ProductDocument productDocument) {
+        log.info("Starting to update the product [id={}]", productDocument.getId());
+        ProductDocument updatedDocument = productRepository.save(productDocument);
+        log.info("ProductDocument is updated [id={}]", updatedDocument.getId());
+        return updatedDocument;
+    }
+
+    public void deleteProduct(String id) {
+        log.info("Starting to delete the product [id={}]", id);
+        productRepository.deleteById(id);
+        log.info("Product is deleted [id={}]", id);
+    }
+
     public List<ProductDocument> searchProducts(SearchProductRequestDto request, Pageable pageable) {
         NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder();
         if (request.getCategory() != null) {

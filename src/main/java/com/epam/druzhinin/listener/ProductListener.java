@@ -1,6 +1,7 @@
 package com.epam.druzhinin.listener;
 
-import com.epam.druzhinin.document.ProductDocument;
+import com.epam.druzhinin.dto.ProductQueueDto;
+import com.epam.druzhinin.enums.QueueTitle;
 import com.epam.druzhinin.services.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -19,10 +20,15 @@ public class ProductListener {
     @RabbitListener(
             queues = "${rabbitmq.queue}",
             autoStartup = "true")
-    public void receiveProducts(ProductDocument productDocument) {
-        log.info("ProductDocument was received [id={}, name={}]", productDocument.getId(), productDocument.getName());
-        log.info("Starting to save the productDocument [id={}]", productDocument.getId());
-        productService.saveProduct(productDocument);
-        log.info("ProductDocument is saved [id={}]", productDocument.getId());
+    public void receiveProducts(ProductQueueDto productQueueDto) {
+        log.info("Product was received [id={}, queueTitle={}]", productQueueDto.getProductEntity().getId(), productQueueDto.getQueueTitle());
+        QueueTitle queueTitle = productQueueDto.getQueueTitle();
+        if (queueTitle.equals(QueueTitle.CREATE)) {
+            productService.saveProduct(productQueueDto.getProductEntity());
+        } else if (queueTitle.equals(QueueTitle.UPDATE)) {
+            productService.updateProduct(productQueueDto.getProductEntity());
+        } else if (queueTitle.equals(QueueTitle.DELETE)) {
+            productService.deleteProduct(productQueueDto.getProductEntity().getId());
+        }
     }
 }
