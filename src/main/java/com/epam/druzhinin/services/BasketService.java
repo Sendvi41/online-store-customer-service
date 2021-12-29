@@ -30,7 +30,11 @@ public class BasketService {
 
     private final ModelMapper modelMapper;
 
-    public BasketService(BasketRepository basketRepository, UserRepository userRepository, ProductRepository productRepository, ItemRepository itemRepository, ModelMapper modelMapper) {
+    public BasketService(BasketRepository basketRepository,
+                         UserRepository userRepository,
+                         ProductRepository productRepository,
+                         ItemRepository itemRepository,
+                         ModelMapper modelMapper) {
         this.basketRepository = basketRepository;
         this.userRepository = userRepository;
         this.productRepository = productRepository;
