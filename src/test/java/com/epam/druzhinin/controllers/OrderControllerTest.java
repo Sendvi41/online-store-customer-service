@@ -3,16 +3,25 @@ package com.epam.druzhinin.controllers;
 import com.epam.druzhinin.document.ProductDocument;
 import com.epam.druzhinin.dto.MessageDto;
 import com.epam.druzhinin.dto.OrderDto;
-import com.epam.druzhinin.entity.*;
+import com.epam.druzhinin.entity.BasketEntity;
+import com.epam.druzhinin.entity.ItemEntity;
+import com.epam.druzhinin.entity.OrderEntity;
+import com.epam.druzhinin.entity.OrderedProductEntity;
+import com.epam.druzhinin.entity.UserEntity;
 import com.epam.druzhinin.enums.OrderStatus;
-import com.epam.druzhinin.repositories.*;
+import com.epam.druzhinin.repositories.BasketRepository;
+import com.epam.druzhinin.repositories.ItemRepository;
+import com.epam.druzhinin.repositories.OrderRepository;
+import com.epam.druzhinin.repositories.OrderedProductRepository;
+import com.epam.druzhinin.repositories.ProductRepository;
+import com.epam.druzhinin.repositories.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.event.annotation.BeforeTestMethod;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
@@ -56,7 +65,7 @@ class OrderControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @BeforeTestMethod
+    @BeforeEach
     void clearDb() {
         itemRepository.deleteAll();
         basketRepository.deleteAll();
