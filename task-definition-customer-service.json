@@ -1,0 +1,146 @@
+{
+  "ipcMode": null,
+  "executionRoleArn": "arn:aws:iam::644747386257:role/ecsTaskExecutionRole",
+  "containerDefinitions": [
+    {
+      "dnsSearchDomains": null,
+      "environmentFiles": null,
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "secretOptions": null,
+        "options": {
+          "awslogs-group": "/ecs/customer-service",
+          "awslogs-region": "eu-central-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      },
+      "entryPoint": null,
+      "portMappings": [],
+      "command": null,
+      "linuxParameters": null,
+      "cpu": 0,
+      "environment": [],
+      "resourceRequirements": null,
+      "ulimits": null,
+      "dnsServers": null,
+      "mountPoints": [],
+      "workingDirectory": null,
+      "secrets": [
+        {
+          "valueFrom": "arn:aws:ssm:eu-central-1:644747386257:parameter/rabbitmq-host",
+          "name": "RABBITMQ_HOST"
+        },
+        {
+          "valueFrom": "arn:aws:ssm:eu-central-1:644747386257:parameter/rabbitmq-pass",
+          "name": "RABBITMQ_PASS"
+        },
+        {
+          "valueFrom": "arn:aws:ssm:eu-central-1:644747386257:parameter/rabbitmq-user",
+          "name": "RABBITMQ_USER"
+        },
+        {
+          "valueFrom": "arn:aws:ssm:eu-central-1:644747386257:parameter/cutomer-db-url",
+          "name": "CUSTOMER_DB_URL"
+        },
+        {
+          "valueFrom": "arn:aws:ssm:eu-central-1:644747386257:parameter/customer-user",
+          "name": "CUSTOMER_USER"
+        },
+        {
+          "valueFrom": "arn:aws:ssm:eu-central-1:644747386257:parameter/customer-pass",
+          "name": "CUSTOMER_PASS"
+        },
+        {
+          "valueFrom": "arn:aws:ssm:eu-central-1:644747386257:parameter/customer-elastic-host",
+          "name": "CUSTOMER_ELASTIC_HOST"
+        },
+        {
+          "valueFrom": "arn:aws:ssm:eu-central-1:644747386257:parameter/customer-elastic-port",
+          "name": "CUSTOMER_ELASTIC_PORT"
+        }
+      ],
+      "dockerSecurityOptions": null,
+      "memory": 256,
+      "memoryReservation": null,
+      "volumesFrom": [],
+      "stopTimeout": null,
+      "image": "644747386257.dkr.ecr.eu-central-1.amazonaws.com/customer-service:52a156de90ac88c1df515078173f3501084d7417",
+      "startTimeout": null,
+      "firelensConfiguration": null,
+      "dependsOn": null,
+      "disableNetworking": null,
+      "interactive": null,
+      "healthCheck": null,
+      "essential": true,
+      "links": null,
+      "hostname": null,
+      "extraHosts": null,
+      "pseudoTerminal": null,
+      "user": null,
+      "readonlyRootFilesystem": null,
+      "dockerLabels": null,
+      "systemControls": null,
+      "privileged": null,
+      "name": "customer-service"
+    }
+  ],
+  "placementConstraints": [],
+  "memory": null,
+  "taskRoleArn": null,
+  "compatibilities": [
+    "EXTERNAL",
+    "EC2"
+  ],
+  "taskDefinitionArn": "arn:aws:ecs:eu-central-1:644747386257:task-definition/customer-service:1",
+  "family": "customer-service",
+  "requiresAttributes": [
+    {
+      "targetId": null,
+      "targetType": null,
+      "value": null,
+      "name": "com.amazonaws.ecs.capability.logging-driver.awslogs"
+    },
+    {
+      "targetId": null,
+      "targetType": null,
+      "value": null,
+      "name": "ecs.capability.execution-role-awslogs"
+    },
+    {
+      "targetId": null,
+      "targetType": null,
+      "value": null,
+      "name": "com.amazonaws.ecs.capability.ecr-auth"
+    },
+    {
+      "targetId": null,
+      "targetType": null,
+      "value": null,
+      "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
+    },
+    {
+      "targetId": null,
+      "targetType": null,
+      "value": null,
+      "name": "ecs.capability.execution-role-ecr-pull"
+    },
+    {
+      "targetId": null,
+      "targetType": null,
+      "value": null,
+      "name": "ecs.capability.secrets.ssm.environment-variables"
+    }
+  ],
+  "pidMode": null,
+  "requiresCompatibilities": [
+    "EC2"
+  ],
+  "networkMode": null,
+  "runtimePlatform": null,
+  "cpu": null,
+  "revision": 1,
+  "status": "ACTIVE",
+  "inferenceAccelerators": null,
+  "proxyConfiguration": null,
+  "volumes": []
+}
