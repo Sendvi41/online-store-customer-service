@@ -11,7 +11,7 @@
 	<groupId>com.epam.druzhinin</groupId>
 	<artifactId>online-store-customer-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>online-store-customer-service</name>
 	<description>Customer-service</description>
 	<properties>
@@ -74,6 +74,10 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<excludes>
 						<exclude>
@@ -99,6 +103,7 @@
 				</executions>
 			</plugin>
 		</plugins>
+		<finalName>customerService</finalName>
 	</build>
 
 </project>
