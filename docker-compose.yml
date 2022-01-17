@@ -16,6 +16,7 @@ services:
     ports:
       - "9200:9200"
   customer-test-db:
+    profiles: ["test"]
     image: postgres:13.4
     restart: always
     ports:
@@ -25,6 +26,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_DB: customerTestServiceDB
   elasticsearch-test:
+    profiles: ["test"]
     image: elasticsearch:7.10.1
     environment:
       - discovery.type=single-node
