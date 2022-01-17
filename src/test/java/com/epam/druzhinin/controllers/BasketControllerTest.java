@@ -21,6 +21,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import javax.transaction.Transactional;
+
 import static com.epam.druzhinin.util.PreparationUtil.prepareProductDocument;
 import static com.epam.druzhinin.util.PreparationUtil.prepareUserEntity;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -55,6 +57,7 @@ class BasketControllerTest {
     private ObjectMapper objectMapper;
 
     @BeforeEach
+    @Transactional
     void clearDb() {
         itemRepository.deleteAll();
         basketRepository.deleteAll();
