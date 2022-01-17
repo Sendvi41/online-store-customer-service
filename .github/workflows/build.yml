@@ -20,7 +20,7 @@ jobs:
         distribution: 'adopt'
         cache: maven
     - name: Start docker containers
-      run:  docker-compose up customer-test-db elasticsearch-test
+      run:  docker-compose up -d customer-test-db elasticsearch-test
       
     - name: Build with Maven
       run: mvn -B test --file pom.xml
