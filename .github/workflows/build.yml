@@ -19,11 +19,8 @@ jobs:
         java-version: '17'
         distribution: 'adopt'
         cache: maven
-    - name: Start docker container with db
-      run:  docker-compose start customer-test-db
-      
-    - name: Start docker container with elastic
-      run:  docker-compose start elasticsearch-test 
+    - name: Start docker containers
+      run:  docker-compose --profile test up
       
     - name: Build with Maven
       run: mvn -B test --file pom.xml
