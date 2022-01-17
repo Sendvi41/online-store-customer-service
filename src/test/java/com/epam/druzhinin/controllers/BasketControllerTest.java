@@ -57,7 +57,6 @@ class BasketControllerTest {
     private ObjectMapper objectMapper;
 
     @BeforeEach
-    @Transactional
     void clearDb() {
         itemRepository.deleteAll();
         basketRepository.deleteAll();
