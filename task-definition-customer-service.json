@@ -53,10 +53,6 @@
         {
           "valueFrom": "arn:aws:ssm:eu-central-1:644747386257:parameter/customer-elastic-host",
           "name": "CUSTOMER_ELASTIC_HOST"
-        },
-        {
-          "valueFrom": "arn:aws:ssm:eu-central-1:644747386257:parameter/customer-elastic-port",
-          "name": "CUSTOMER_ELASTIC_PORT"
         }
       ],
       "dockerSecurityOptions": null,
