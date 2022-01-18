@@ -1,5 +1,8 @@
 package com.epam.druzhinin.config;
 
+import org.apache.http.HttpHost;
+import org.elasticsearch.client.RestClient;
+import org.elasticsearch.client.RestClientBuilder;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -23,12 +26,13 @@ public class ElasticsearchClientConfig extends AbstractElasticsearchConfiguratio
     @Override
     @Bean
     public RestHighLevelClient elasticsearchClient() {
-        ClientConfiguration clientConfiguration =
-                ClientConfiguration
-                        .builder()
-                        .connectedTo(elasticHost + ":" + elasticPort)
-                        .build();
+        RestClientBuilder builder = RestClient.builder(new HttpHost(elasticHost, Integer.parseInt(elasticPort), "https"));
+//        ClientConfiguration clientConfiguration =;
+//                ClientConfiguration
+//                        .builder()
+//                        .connectedTo(elasticHost + ":" + elasticPort)
+//                        .build();
 
-        return RestClients.create(clientConfiguration).rest();
+        return new RestHighLevelClient(builder);
     }
 }
