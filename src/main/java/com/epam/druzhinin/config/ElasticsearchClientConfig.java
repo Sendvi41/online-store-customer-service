@@ -13,11 +13,14 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
 @EnableElasticsearchRepositories(basePackages = "com.epam.druzhinin.repositories")
 @ComponentScan(basePackages = {"com.epam.druzhinin"})
 public class ElasticsearchClientConfig {
-    @Value("${aws.es.endpoint}")
+    @Value("${aws.es.host}")
     private String elasticHost;
+
+    @Value("${aws.es.port}")
+    private String elasticPort;
 
     @Bean
     public RestHighLevelClient client() {
-        return new RestHighLevelClient(RestClient.builder(HttpHost.create(elasticHost)));
+        return new RestHighLevelClient(RestClient.builder(new HttpHost(elasticHost, Integer.parseInt(elasticPort), "https")));
     }
 }
