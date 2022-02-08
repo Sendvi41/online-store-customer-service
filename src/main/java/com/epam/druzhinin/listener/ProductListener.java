@@ -1,5 +1,7 @@
 package com.epam.druzhinin.listener;
 
+import com.epam.druzhinin.client.AdminClient;
+import com.epam.druzhinin.document.ProductDocument;
 import com.epam.druzhinin.dto.ProductQueueDto;
 import com.epam.druzhinin.enums.QueueTitle;
 import com.epam.druzhinin.services.ProductService;
@@ -13,22 +15,28 @@ public class ProductListener {
 
     private final ProductService productService;
 
-    public ProductListener(ProductService productService) {
+    private final AdminClient adminClient;
+
+    public ProductListener(ProductService productService,
+                           AdminClient adminClient) {
         this.productService = productService;
+        this.adminClient = adminClient;
     }
 
     @RabbitListener(
             queues = "${rabbitmq.queue}",
             autoStartup = "true")
     public void receiveProducts(ProductQueueDto productQueueDto) {
-        log.info("Product was received [id={}, queueTitle={}]", productQueueDto.getProductEntity().getId(), productQueueDto.getQueueTitle());
+        log.info("Product was received [id={}, queueTitle={}]", productQueueDto.getProductId(), productQueueDto.getQueueTitle());
         QueueTitle queueTitle = productQueueDto.getQueueTitle();
         if (queueTitle.equals(QueueTitle.CREATE)) {
-            productService.saveProduct(productQueueDto.getProductEntity());
+            ProductDocument productDocument = adminClient.getProductById(productQueueDto.getProductId());
+            productService.saveProduct(productDocument);
         } else if (queueTitle.equals(QueueTitle.UPDATE)) {
-            productService.updateProduct(productQueueDto.getProductEntity());
+            ProductDocument productDocument = adminClient.getProductById(productQueueDto.getProductId());
+            productService.updateProduct(productDocument);
         } else if (queueTitle.equals(QueueTitle.DELETE)) {
-            productService.deleteProduct(productQueueDto.getProductEntity().getId());
+            productService.deleteProduct(productQueueDto.getProductId().toString());
         }
     }
 }
