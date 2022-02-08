@@ -11,5 +11,5 @@ import org.springframework.web.bind.annotation.PathVariable;
 @ConditionalOnProperty(value = "feign.client.config.adminClient.isStub", havingValue = "false")
 public interface AdminClientFeign extends AdminClient {
     @GetMapping("/products/{id}")
-    ProductDocument getAllUsersTransactions(@PathVariable Long id);
+    ProductDocument getProductById(@PathVariable Long id);
 }
